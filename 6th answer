@@ -5,6 +5,42 @@ If all the numbers from 1 to 1000 (one thousand) inclusive were written out in w
  
 NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
 
+Solution:
+step1:first count the letters for letters from 1 to 9.
+step2:Count letters for numbers from 10 to 19.
+step3:Count letters for multiples of 10 from 20 to 90.
+step4:Combine the results to cover all numbers from 1 to 99.
+step5:Count letters for hundreds (100 to 999).
+step6:Count letters for 1000.
+Step7:Combine all totals:
+
+##code:
+
+units = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+teens = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+hundreds = ["", "one hundred", "two hundred", "three hundred", "four hundred", "five hundred", "six hundred", "seven hundred", "eight hundred", "nine hundred"]
+
+def count_letters(number):
+    words = ""
+    if number == 1000:
+        words = "one thousand"
+    elif number >= 100:
+        words += hundreds[number // 100]
+        if number % 100 != 0:
+            words += " and " + count_letters(number % 100)
+    elif number >= 20:
+        words += tens[number // 10]
+        if number % 10 != 0:
+            words += " " + units[number % 10]
+    elif number >= 10:
+        words += teens[number - 10]
+    else:
+        words += units[number]
+    return words.replace(" ", "")
+
+total_letters = sum(len(count_letters(i)) for i in range(1, 1001))
+print(total_letters)
 
 
 
